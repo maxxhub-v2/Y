@@ -362,19 +362,19 @@ local success, err = pcall(function()
     Create("TextLabel", {Size = UDim2.new(1, -40, 0, 20), Position = UDim2.new(0.5, 0, 1, -26), AnchorPoint = Vector2.new(0.5, 0), BackgroundTransparency = 1, Text = "discord.gg/nqEUcZm4s  •  MAXX HUB © 2026", TextColor3 = CONFIG.Colors.SubText, Font = Enum.Font.Gotham, TextSize = 11, Parent = keyFrame, ZIndex = 10})
 
     --// ═══════════════════════════════════════════════════════
-    --//  HIGH-VISIBILITY GOLD BUTTON FACTORY
+    --//  ULTRA-VISIBLE BUTTON FACTORY
     --// ═══════════════════════════════════════════════════════
     local function MakeButton(name, text, parent, size, isPrimary, callback)
         local accent = CONFIG.Colors.Primary
         
-        -- Drop shadow for depth & box visibility
+        -- Shadow for depth
         local shadow = Create("Frame", {
             Name = "Shadow",
             Size = UDim2.new(size.X.Scale, size.X.Offset + 4, size.Y.Scale, size.Y.Offset + 4),
             Position = UDim2.new(0.5, 0, 0.5, 0),
             AnchorPoint = Vector2.new(0.5, 0.5),
             BackgroundColor3 = Color3.fromRGB(0, 0, 0),
-            BackgroundTransparency = 0.45,
+            BackgroundTransparency = 0.35,
             BorderSizePixel = 0,
             Parent = parent,
             ZIndex = 9
@@ -384,12 +384,12 @@ local success, err = pcall(function()
         local btn = Create("TextButton", {
             Name = name,
             Size = size,
-            BackgroundColor3 = isPrimary and accent or Color3.fromRGB(42, 36, 22),
+            BackgroundColor3 = isPrimary and Color3.fromRGB(255, 200, 40) or Color3.fromRGB(55, 50, 40),
             BackgroundTransparency = 0,
             Text = text,
-            TextColor3 = isPrimary and Color3.fromRGB(20, 14, 0) or CONFIG.Colors.Text,
-            Font = Enum.Font.GothamBlack,
-            TextSize = isPrimary and 17 or 15,
+            TextColor3 = isPrimary and Color3.fromRGB(20, 15, 0) or Color3.fromRGB(255, 230, 180),
+            Font = Enum.Font.GothamBold,
+            TextSize = isPrimary and 18 or 15,
             TextXAlignment = Enum.TextXAlignment.Center,
             AutoButtonColor = false,
             Parent = parent,
@@ -398,56 +398,40 @@ local success, err = pcall(function()
         })
         Create("UICorner", {CornerRadius = UDim.new(0, 14), Parent = btn})
 
-        -- Thick bright gold border — fully visible
+        -- Bright white/gold border — fully visible
         local stroke = Create("UIStroke", {
-            Color = accent,
+            Color = isPrimary and Color3.fromRGB(255, 235, 150) or Color3.fromRGB(200, 170, 80),
             Transparency = 0,
-            Thickness = isPrimary and 2.8 or 2.2,
+            Thickness = isPrimary and 3 or 2.4,
             Parent = btn
         })
 
-        -- Gold sheen gradient overlay
-        Create("UIGradient", {
-            Color = ColorSequence.new({
-                ColorSequenceKeypoint.new(0, accent),
-                ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255, 255, 255)),
-                ColorSequenceKeypoint.new(1, accent)
-            }),
-            Transparency = isPrimary and NumberSequence.new(0.55, 0.72) or NumberSequence.new(0.72, 0.82),
-            Rotation = 90,
-            Parent = btn
-        })
-
-        -- Hover / Press — all buttons glow solid gold
+        -- Hover / Press
         btn.MouseEnter:Connect(function()
-            Tween(btn, 0.3, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out, {
+            Tween(btn, 0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, {
                 Size = UDim2.new(size.X.Scale, size.X.Offset + 6, size.Y.Scale, size.Y.Offset + 2),
-                BackgroundColor3 = accent,
-                TextColor3 = Color3.fromRGB(20, 14, 0)
+                BackgroundColor3 = Color3.fromRGB(255, 220, 80)
             })
-            Tween(shadow, 0.3, nil, nil, {BackgroundTransparency = 0.3, Size = UDim2.new(size.X.Scale, size.X.Offset + 8, size.Y.Scale, size.Y.Offset + 4)})
-            Tween(stroke, 0.25, nil, nil, {Thickness = 3.2})
+            Tween(stroke, 0.2, nil, nil, {Color = Color3.fromRGB(255, 255, 255), Thickness = isPrimary and 3.5 or 2.8})
+            Tween(shadow, 0.25, nil, nil, {BackgroundTransparency = 0.2})
         end)
 
         btn.MouseLeave:Connect(function()
-            Tween(btn, 0.3, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out, {
+            Tween(btn, 0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, {
                 Size = size,
-                BackgroundColor3 = isPrimary and accent or Color3.fromRGB(42, 36, 22),
-                TextColor3 = isPrimary and Color3.fromRGB(20, 14, 0) or CONFIG.Colors.Text
+                BackgroundColor3 = isPrimary and Color3.fromRGB(255, 200, 40) or Color3.fromRGB(55, 50, 40)
             })
-            Tween(shadow, 0.3, nil, nil, {BackgroundTransparency = 0.45, Size = UDim2.new(size.X.Scale, size.X.Offset + 4, size.Y.Scale, size.Y.Offset + 4)})
-            Tween(stroke, 0.25, nil, nil, {Thickness = isPrimary and 2.8 or 2.2})
+            Tween(stroke, 0.2, nil, nil, {Color = isPrimary and Color3.fromRGB(255, 235, 150) or Color3.fromRGB(200, 170, 80), Thickness = isPrimary and 3 or 2.4})
+            Tween(shadow, 0.25, nil, nil, {BackgroundTransparency = 0.35})
         end)
 
         btn.MouseButton1Down:Connect(function(x, y)
             Ripple(btn, Vector2.new(x, y) - btn.AbsolutePosition)
-            Tween(btn, 0.1, nil, nil, {Size = UDim2.new(size.X.Scale, size.X.Offset - 4, size.Y.Scale, size.Y.Offset - 2)})
-            Tween(shadow, 0.1, nil, nil, {Size = UDim2.new(size.X.Scale, size.X.Offset + 2, size.Y.Scale, size.Y.Offset + 2)})
+            Tween(btn, 0.08, nil, nil, {Size = UDim2.new(size.X.Scale, size.X.Offset - 4, size.Y.Scale, size.Y.Offset - 2)})
         end)
 
         btn.MouseButton1Up:Connect(function()
-            Tween(btn, 0.25, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out, {Size = UDim2.new(size.X.Scale, size.X.Offset + 6, size.Y.Scale, size.Y.Offset + 2)})
-            Tween(shadow, 0.25, nil, nil, {Size = UDim2.new(size.X.Scale, size.X.Offset + 8, size.Y.Scale, size.Y.Offset + 4)})
+            Tween(btn, 0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, {Size = UDim2.new(size.X.Scale, size.X.Offset + 6, size.Y.Scale, size.Y.Offset + 2)})
         end)
 
         btn.MouseButton1Click:Connect(function()
@@ -524,10 +508,10 @@ local success, err = pcall(function()
         pcall(function() if setclipboard then setclipboard(CONFIG.DiscordLink) end end)
     end
 
-    --// Create Buttons — All Highly Visible
-    MakeButton("CheckKeyBtn", "🔐  VERIFY ACCESS", btnContainer, UDim2.new(1, 0, 0, 56), true, CheckKey)
-    MakeButton("GetKeyBtn", "🎁  Get Key", btnContainer, UDim2.new(1, 0, 0, 48), false, GetKey)
-    MakeButton("DiscordBtn", "💬  Join Discord", btnContainer, UDim2.new(1, 0, 0, 48), false, JoinDiscord)
+    --// Create Buttons — Ultra Visible
+    MakeButton("CheckKeyBtn", "VERIFY ACCESS", btnContainer, UDim2.new(1, 0, 0, 56), true, CheckKey)
+    MakeButton("GetKeyBtn", "GET KEY", btnContainer, UDim2.new(1, 0, 0, 48), false, GetKey)
+    MakeButton("DiscordBtn", "JOIN DISCORD", btnContainer, UDim2.new(1, 0, 0, 48), false, JoinDiscord)
 
     --// ═══════════════════════════════════════════════════════
     --//  ENTRANCE ANIMATION
@@ -597,7 +581,7 @@ local success, err = pcall(function()
         end
     end)
 
-    print("[MAXX HUB] Gold Key System loaded")
+    print("[MAXX HUB] Ultra-Visible Key System loaded")
 end)
 
 if not success then
